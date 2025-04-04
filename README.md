@@ -2,6 +2,20 @@
 
 This application helps distribute PDF files to students based on their requirements listed in an Excel file.
 
+## Virtual environment
+
+Avoid conflicts between different projects use Python virtual environment
+
+In mac 
+```
+source venv/bin/activate
+```
+
+In Windows
+```
+venv\Scripts\activate
+```
+
 ## Requirements
 
 - Python 3.7 or higher
