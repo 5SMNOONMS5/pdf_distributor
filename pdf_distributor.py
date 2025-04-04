@@ -3,6 +3,7 @@ import shutil
 import pandas as pd
 from pathlib import Path
 from PyPDF2 import PdfMerger
+import sys
 
 def create_student_folders(excel_path, pdf_source_dir, output_dir):
     """
@@ -58,14 +59,21 @@ def create_student_folders(excel_path, pdf_source_dir, output_dir):
             try:
                 merger = PdfMerger()
                 for pdf in copied_pdfs:
-                    merger.append(pdf)
+                    try:
+                        merger.append(pdf)
+                    except Exception as e:
+                        print(f"警告: 處理檔案 {os.path.basename(pdf)} 時發生錯誤，將跳過此檔案")
+                        continue
                 
-                # Create merged PDF filename
-                merged_pdf = os.path.join(student_folder, f"{student_name}.pdf")
-                merger.write(merged_pdf)
+                if len(merger.pages) > 0:  # Only create merged PDF if we have pages
+                    # Create merged PDF filename
+                    merged_pdf = os.path.join(student_folder, f"{student_name}.pdf")
+                    merger.write(merged_pdf)
+                    print(f"已合併 {len(merger.pages)} 個PDF檔案為 {student_name}.pdf")
+                else:
+                    print(f"警告: 無法為 {student_name} 建立合併PDF，因為沒有可用的PDF檔案")
+                
                 merger.close()
-                
-                print(f"已合併 {len(copied_pdfs)} 個PDF檔案為 {student_name}.pdf")
             except Exception as e:
                 print(f"警告: 合併PDF檔案時發生錯誤: {e}")
 
