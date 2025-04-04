@@ -19,7 +19,7 @@ def create_student_folders(excel_path, pdf_source_dir, output_dir):
     try:
         df = pd.read_excel(excel_path)
     except Exception as e:
-        print(f"🔴 讀取Excel檔案時發生錯誤: {e}")
+        print(f"讀取Excel檔案時發生錯誤: {e}")
         return
     
     # Process each student
@@ -36,13 +36,17 @@ def create_student_folders(excel_path, pdf_source_dir, output_dir):
         
         # Copy each required PDF to student's folder
         for pdf in pdf_list:
+            # Add .pdf suffix if not present
+            if not pdf.lower().endswith('.pdf'):
+                pdf = pdf + '.pdf'
+            
             source_pdf = os.path.join(pdf_source_dir, pdf)
             if os.path.exists(source_pdf):
                 dest_pdf = os.path.join(student_folder, pdf)
                 shutil.copy2(source_pdf, dest_pdf)
                 print(f"已複製 {pdf} 到 {student_name} 的資料夾")
             else:
-                print(f"🔴 ------ 找不到學生 {student_name} 需要的 {pdf} 檔案 ")
+                print(f"警告: 找不到 {student_name} 需要的 {pdf} 檔案")
 
 def main():
     # Get the current directory
@@ -55,15 +59,15 @@ def main():
     
     # Check if Excel file exists
     if not os.path.exists(excel_path):
-        print("🔴 找不到 students.xlsx 檔案!")
-        print("🔴 請在同一個資料夾中建立名為 'students.xlsx' 的Excel檔案，並包含以下欄位:")
-        print("🔴 - Student Name (學生姓名)")
-        print("🔴 - Required PDFs (需要的PDF檔案，以逗號分隔)")
+        print("錯誤: 找不到 students.xlsx 檔案!")
+        print("請在同一個資料夾中建立名為 'students.xlsx' 的Excel檔案，並包含以下欄位:")
+        print("- Student Name (學生姓名)")
+        print("- Required PDFs (需要的PDF檔案，以逗號分隔，可省略.pdf後綴)")
         return
     
     # Check if PDFs directory exists
     if not os.path.exists(pdf_source_dir):
-        print("🔴 錯誤: 找不到 PDFs 資料夾!")
+        print("錯誤: 找不到 PDFs 資料夾!")
         return
     
     # Create student folders and copy PDFs
