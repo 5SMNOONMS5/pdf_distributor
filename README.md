@@ -20,8 +20,9 @@ venv\Scripts\activate
 
 - Python 3.7 or higher
 - Required Python packages (install using `pip install -r requirements.txt`):
-  - pandas
+  - pandas        
   - openpyxl
+  - PyPDF2==3.0.1 
 
 ## Setup
 
