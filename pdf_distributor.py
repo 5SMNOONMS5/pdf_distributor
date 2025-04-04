@@ -2,6 +2,7 @@ import os
 import shutil
 import pandas as pd
 from pathlib import Path
+from PyPDF2 import PdfMerger
 
 def create_student_folders(excel_path, pdf_source_dir, output_dir):
     """
@@ -34,6 +35,9 @@ def create_student_folders(excel_path, pdf_source_dir, output_dir):
         # Split the required PDFs (assuming they're comma-separated)
         pdf_list = [pdf.strip() for pdf in required_pdfs.split(',')]
         
+        # List to store successfully copied PDFs
+        copied_pdfs = []
+        
         # Copy each required PDF to student's folder
         for pdf in pdf_list:
             # Add .pdf suffix if not present
@@ -44,9 +48,26 @@ def create_student_folders(excel_path, pdf_source_dir, output_dir):
             if os.path.exists(source_pdf):
                 dest_pdf = os.path.join(student_folder, pdf)
                 shutil.copy2(source_pdf, dest_pdf)
+                copied_pdfs.append(dest_pdf)
                 print(f"已複製 {pdf} 到 {student_name} 的資料夾")
             else:
                 print(f"警告: 找不到 {student_name} 需要的 {pdf} 檔案")
+        
+        # If we have successfully copied PDFs, merge them
+        if copied_pdfs:
+            try:
+                merger = PdfMerger()
+                for pdf in copied_pdfs:
+                    merger.append(pdf)
+                
+                # Create merged PDF filename
+                merged_pdf = os.path.join(student_folder, f"{student_name}.pdf")
+                merger.write(merged_pdf)
+                merger.close()
+                
+                print(f"已合併 {len(copied_pdfs)} 個PDF檔案為 {student_name}.pdf")
+            except Exception as e:
+                print(f"警告: 合併PDF檔案時發生錯誤: {e}")
 
 def main():
     # Get the current directory
