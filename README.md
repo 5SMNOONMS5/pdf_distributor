@@ -53,6 +53,8 @@ Example of how your `students.xlsx` should look:
 2. Create your `students.xlsx` file in the same directory as the script
 3. Run the script:
    ```
+   source venv/bin/activate
+   
    python3 pdf_distributor.py
    ```
 

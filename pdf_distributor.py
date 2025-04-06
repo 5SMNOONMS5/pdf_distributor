@@ -86,6 +86,9 @@ def main():
     pdf_source_dir = os.path.join(current_dir, "PDFs")
     output_dir = os.path.join(current_dir, "Student_Folders")
     
+    print(f"請記得 excel 檔案名稱要叫 students.xlsx")
+    print(f"excel 裡面的標題在第一行，分別是 Student Name 跟 Required PDFs")
+
     # Check if Excel file exists
     if not os.path.exists(excel_path):
         print("錯誤: 找不到 students.xlsx 檔案!")
