@@ -78,6 +78,9 @@ def create_student_folders(excel_path, pdf_source_dir, output_dir):
                 print(f"警告: 合併PDF檔案時發生錯誤: {e}")
 
 def main():
+
+    print(f"請記得先刪除 Student_Folders 資料夾")
+    
     # Get the current directory
     current_dir = os.path.dirname(os.path.abspath(__file__))
     
