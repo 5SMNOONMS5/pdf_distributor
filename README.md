@@ -3,9 +3,12 @@
 This application helps distribute PDF files to students based on their requirements listed in an Excel file.
 
 這專案主要是幫助楊先生的補習班學生分配試卷為主
+
 比如楊先生總共有 30 份考卷，有 10 個學生
+
 學生 A 需要 試卷1, 試卷3, 試卷5
 學生 B 需要 試卷1, 試卷7, 試卷9
+
 資料來源會在 Excel 檔案，此程式主要就是去讀取這個 Excel 檔案並且根據需求產生到指定的學生的 Folder 裡面包含所需要的試卷，並且最後再把所有 PDF 檔案合併起來
 
 ## Virtual environment
